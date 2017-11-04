@@ -43,12 +43,13 @@ const _insertProducer = R.curry((producers, producer) =>
     .mapError(R.append(producer))
     .merge());
 
-// addProducer :: Options -> Array Producer -> Task Array Producer
+// insertProducer :: Options -> Array Producer -> Task Array Producer
 const insertProducer = R.curry((options, producers) =>
   createProducerInstance(options)
     .chain(waitForProducerReady)
     .map(_insertProducer(producers)));
 
+// pickReadyField :: Producer -> { ready :: Boolean } | null
 const pickReadyField = R.ifElse(R.isNil, R.identity, R.pick(['ready']));
 
 // updateProducers :: Array Producer -> Task
@@ -74,7 +75,7 @@ const getProducer = index => Task.task((r) => {
   return producer ? r.resolve(producer) : r.reject(new Error('Producer not found'));
 });
 
-// TODO: refactor this
+// validateIndex :: Number -> Array Producer -> Task Error Array Producer
 const validateIndex = R.curry((index, producers) =>
   Task.task((r) => {
     if (typeof index !== 'number')
@@ -84,6 +85,7 @@ const validateIndex = R.curry((index, producers) =>
     else r.resolve(producers);
   }));
 
+// closeProducer :: Number -> Array Producer -> Task Array Producer
 const closeProducer = R.curry((index, producers) =>
   Task.task((r) =>
     producers[index].close(() => {
@@ -92,6 +94,7 @@ const closeProducer = R.curry((index, producers) =>
   ),
 );
 
+// _removeProducer :: Array Producer -> Array Producer
 const _removeProducer = R.update(R.__, null);
 
 // removeProducer :: Number -> Task Array Producer

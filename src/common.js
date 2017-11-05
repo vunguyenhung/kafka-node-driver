@@ -13,11 +13,12 @@ const findFirstEmptyPosition = arr => {
   return nearestEmptyPos < 0 ? Result.Error(arr) : Result.Ok(nearestEmptyPos);
 };
 
-// fillEmptyPosition :: Array a -> a -> Result Error Array a
+// fillEmptyPosition :: (Array a, a) -> Result Error Array a
 const fillEmptyPosition = (arr, element) =>
   findFirstEmptyPosition(arr)
     .map(R.update(R.__, element, arr));
 
+// replaceNullOrAppendToEnd :: Array a -> a -> Array a
 const replaceNullOrAppendToEnd = R.curry((arr, element) =>
   fillEmptyPosition(arr, element)
     .mapError(R.append(element))

@@ -18,7 +18,13 @@ const fillEmptyPosition = (arr, element) =>
   findFirstEmptyPosition(arr)
     .map(R.update(R.__, element, arr));
 
+const replaceNullOrAppendToEnd = R.curry((arr, element) =>
+  fillEmptyPosition(arr, element)
+    .mapError(R.append(element))
+    .merge(),
+);
+
 module.exports = {
   trace,
-  fillEmptyPosition,
+  replaceNullOrAppendToEnd,
 };

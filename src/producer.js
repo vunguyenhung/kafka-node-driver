@@ -3,13 +3,13 @@
  */
 const R = require('ramda');
 const Task = require('folktale/concurrency/task');
-const Result = require('folktale/result');
 const { Producer, KafkaClient } = require('kafka-node');
 
 /*
 Project file imports
  */
 const { storage } = require('./storage');
+const { fillEmptyPosition } = require('./common');
 
 // createProducerInstance :: (options) -> Task Producer
 const createProducerInstance = ({ clientOptions, producerOptions }) =>
@@ -25,17 +25,6 @@ const waitForProducerReady = producer =>
 
 // getProducers :: () -> Task Array Producer
 const getProducers = () => Task.of(storage.producers);
-
-// findFirstEmptyPosition :: Array Producer -> Result (Error Array Producer) Number
-const findFirstEmptyPosition = producers => {
-  const nearestEmptyPos = R.findIndex(R.isNil)(producers);
-  return nearestEmptyPos < 0 ? Result.Error(producers) : Result.Ok(nearestEmptyPos);
-};
-
-// fillEmptyPosition :: Array Producer -> Result Number
-const fillEmptyPosition = (producers, producer) =>
-  findFirstEmptyPosition(producers)
-    .map(R.update(R.__, producer, producers));
 
 // _insertProducer :: Array Producer -> Producer -> Array Producer
 const _insertProducer = R.curry((producers, producer) =>

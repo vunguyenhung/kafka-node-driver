@@ -9,7 +9,7 @@ const { Producer, KafkaClient } = require('kafka-node');
 Project file imports
  */
 const { storage } = require('./storage');
-const { replaceNullOrAppendToEnd } = require('./common');
+const { replaceNullOrAppendToEnd, toReadyStatus } = require('./common');
 
 // createProducerInstance :: (options) -> Task Producer
 const createProducerInstance = ({ clientOptions, producerOptions }) =>
@@ -32,20 +32,16 @@ const insertProducer = R.curry((options, producers) =>
     .chain(waitForProducerReady)
     .map(replaceNullOrAppendToEnd(producers)));
 
-// pickReadyField :: Producer -> { ready :: Boolean } | null
-const pickReadyField = R.ifElse(R.isNil, R.identity, R.pick(['ready']));
-
-// updateProducers :: Array Producer -> Task
-const updateProducers = producers => Task.task((r) => {
-  const producersBefore = R.map(pickReadyField)(storage.producers);
-  const producersAfter = R.map(pickReadyField)(producers);
-  // Object.assign(storage.producers, producers);
-  storage.producers = producers;
-  r.resolve({
-    producersBefore,
-    producersAfter,
+// _updateProducers :: Array Producer -> Task
+const _updateProducers = producers =>
+  Task.task((r) => {
+    storage.producers = producers;
+    r.resolve(storage.producers);
   });
-});
+
+const updateProducers = producers =>
+  _updateProducers(producers)
+    .map(toReadyStatus);
 
 const createProducer = (options) =>
   getProducers()

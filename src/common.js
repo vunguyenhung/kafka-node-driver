@@ -25,7 +25,13 @@ const replaceNullOrAppendToEnd = R.curry((arr, element) =>
     .merge(),
 );
 
+// pickReadyField :: Producer -> { ready :: Boolean } | null
+const pickReadyField = R.ifElse(R.isNil, R.identity, R.pick(['ready']));
+
+const toReadyStatus = R.map(pickReadyField);
+
 module.exports = {
   trace,
   replaceNullOrAppendToEnd,
+  toReadyStatus,
 };

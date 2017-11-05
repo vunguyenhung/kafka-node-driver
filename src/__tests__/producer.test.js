@@ -20,7 +20,7 @@ describe('Producer test', () => {
   it('[P01] should add one more producer to storage.producers when init a producer successfully',
     async () => {
       // GIVEN
-      const expectedResult = { producersBefore: [], producersAfter: [{ ready: true }] };
+      const expectedResult = [{ ready: true }];
 
       expect(storage.producers).toHaveLength(0);
 
@@ -35,11 +35,8 @@ describe('Producer test', () => {
   it('[P02] should return success status when init ceaselessly 2 producers successfully',
     async () => {
       // GIVEN
-      const expectedResult1 = { producersBefore: [], producersAfter: [{ ready: true }] };
-      const expectedResult2 = {
-        producersBefore: [{ ready: true }],
-        producersAfter: [{ ready: true }, { ready: true }],
-      };
+      const expectedResult1 = [{ ready: true }];
+      const expectedResult2 = [{ ready: true }, { ready: true }];
 
       // WHEN
       const actualResult1 = await createProducer(options).run().promise();
@@ -53,10 +50,7 @@ describe('Producer test', () => {
   it('[P03] should insert producer to an empty slot ' +
     'when insertProducer and storage.producers has an empty slot', async () => {
     // GIVEN
-    const expectedResult = {
-      producersBefore: [null, { ready: true }],
-      producersAfter: [{ ready: true }, { ready: true }],
-    };
+    const expectedResult = [{ ready: true }, { ready: true }];
     await createProducer(options).run().promise();
     await createProducer(options).run().promise();
     await removeProducer(0).run().promise();
@@ -71,10 +65,7 @@ describe('Producer test', () => {
   it('[P04] should replace a producer with null value in storage.producers ' +
     'when remove a producer successfully', async () => {
     // GIVEN
-    const expectedResult = {
-      producersBefore: [{ ready: true }, { ready: true }],
-      producersAfter: [null, { ready: true }],
-    };
+    const expectedResult = [null, { ready: true }];
     await createProducer(options).run().promise();
     await createProducer(options).run().promise();
 

@@ -1,0 +1,8 @@
+{
+  "Kafka": {
+    "consumerOptions": {
+      "autoCommitIntervalMs": 1000,
+      "groupId": "knd"
+    }
+  }
+}

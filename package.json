@@ -4,7 +4,10 @@
   "description": "This library provide a thin layer wraps kafka-node library with some of Folktale and Rxjs data structures.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --forceExit"
+    "test": "DEBUG=* jest --forceExit",
+    "test-localhost": "NODE_ENV=localhost DEBUG=* jest --forceExit",
+    "test:watch": "DEBUG=* jest --forceExit --watch",
+    "test-localhost:watch": "NODE_ENV=localhost DEBUG=* jest --forceExit --watch"
   },
   "repository": {
     "type": "git",
@@ -24,12 +27,15 @@
   },
   "homepage": "https://github.com/vunguyenhung/kafka-node-driver#readme",
   "dependencies": {
+    "debug": "3.1.0",
     "folktale": "2.0.1",
     "kafka-node": "2.2.3",
-    "ramda": "0.25.0"
+    "ramda": "0.25.0",
+    "rxjs": "5.5.2"
   },
   "devDependencies": {
     "babel-preset-env": "1.6.1",
+    "config": "1.27.0",
     "eslint": "4.10.0",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "2.8.0",

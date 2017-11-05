@@ -1,10 +1,16 @@
+/*
+3rd Party library imports
+ */
+const config = require('config');
+
+/*
+Project file imports
+ */
 const { createProducer, removeProducer } = require('../producer');
 const { storage } = require('../storage');
 
 describe('Producer test', () => {
-  const options = {
-    clientOptions: { kafkaHost: 'kafka:9092' },
-  };
+  const options = config.get('Kafka');
 
   afterEach(async () => {
     // naive cleanup

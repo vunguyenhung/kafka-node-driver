@@ -33,20 +33,17 @@ const insertProducer = R.curry((options, producers) =>
     .map(replaceNullOrAppendToEnd(producers)));
 
 // _updateProducers :: Array Producer -> Task
-const _updateProducers = producers =>
+const updateProducers = producers =>
   Task.task((r) => {
     storage.producers = producers;
     r.resolve(storage.producers);
   });
 
-const updateProducers = producers =>
-  _updateProducers(producers)
-    .map(toReadyStatus);
-
 const createProducer = (options) =>
   getProducers()
     .chain(insertProducer(options))
-    .chain(updateProducers);
+    .chain(updateProducers)
+    .map(toReadyStatus);
 
 // getProducer :: Number -> Task Error Producer
 const getProducer = index => Task.task((r) => {
@@ -82,7 +79,8 @@ const removeProducer = producerIndex =>
     .chain(validateIndex(producerIndex))
     .chain(closeProducer(producerIndex))
     .map(_removeProducer(producerIndex))
-    .chain(updateProducers);
+    .chain(updateProducers)
+    .map(toReadyStatus);
 
 // Message :: { topic :: String, messages :: String, partition? :: Number }
 // _send :: [Message] -> Producer -> Task Error String

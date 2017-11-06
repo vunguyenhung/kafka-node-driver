@@ -1,8 +1,7 @@
-const { createProducer, removeProducer, send, createTopics } = require('./src/producer');
+const Producer = require('./src/producer');
+const Consumer = require('./src/consumer');
 
 module.exports = {
-  createProducer,
-  removeProducer,
-  send,
-  createTopics,
+  Producer,
+  Consumer,
 };

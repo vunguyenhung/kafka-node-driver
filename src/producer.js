@@ -85,15 +85,19 @@ const removeProducer = producerIndex =>
 // Message :: { topic :: String, messages :: String, partition? :: Number }
 // _send :: [Message] -> Producer -> Task Error String
 const _send = R.curry((messages, producer) =>
-  Task.fromNodeback(producer.send)(messages));
+  Task.fromNodeback(producer.send.bind(producer))(messages));
 
 // send :: Message -> Number -> Task Error String
 const send = R.curry((messages, producerIndex = 0) =>
   getProducer(producerIndex).chain(_send(messages)));
 
 // createTopics :: Array String -> Producer -> Task Error Something
-const createTopics = R.curry((topics, producer) =>
-  Task.fromNodeback(producer.createTopics)(topics, true));
+const _createTopics = R.curry((topics, producer) =>
+  Task.fromNodeback(producer.createTopics.bind(producer))(topics, true));
+
+const createTopics = (topics, producerIndex) =>
+  getProducer(producerIndex)
+    .chain(_createTopics(topics));
 
 module.exports = {
   createProducer,

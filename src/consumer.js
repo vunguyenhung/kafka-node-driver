@@ -22,7 +22,12 @@ const _onMessage = consumer =>
 
 // waitForTimeout :: Number -> Task
 const waitForTimeout = (millisecond) =>
-  Task.task((r) => setTimeout(r.resolve, millisecond));
+  Task.task((r) => {
+    const timerId = setTimeout(r.resolve, millisecond);
+    r.cleanup(() => {
+      clearTimeout(timerId);
+    });
+  });
 
 // waitForNextError :: Consumer -> Task Error
 const waitForNextError = R.curry((consumer) =>

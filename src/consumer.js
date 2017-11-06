@@ -76,7 +76,7 @@ const createConsumer = (options, topics) =>
     .map(toReadyStatus);
 
 const getConsumerObservable = consumerIndex =>
-  Rx.Observable.return(storage.consumers[consumerIndex]);
+  Rx.Observable.just(storage.consumers[consumerIndex]);
 
 const onMessage = consumerIndex =>
   getConsumerObservable(consumerIndex).flatMap(_onMessage);

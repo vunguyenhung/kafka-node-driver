@@ -1,7 +1,7 @@
 {
   "name": "kafka-node-driver",
   "version": "0.0.0",
-  "description": "This library provide a thin layer wraps kafka-node library with some of Folktale and Rxjs data structures.",
+  "description": "A thin layer wraps kafka-node library with some of Folktale and Rxjs data structures.",
   "main": "index.js",
   "scripts": {
     "test": "jest --forceExit",

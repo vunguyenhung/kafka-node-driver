@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --forceExit",
-    "test-localhost": "NODE_ENV=localhost DEBUG=* jest --forceExit",
-    "test:watch": "DEBUG=* jest --forceExit --watch",
-    "test-localhost:watch": "NODE_ENV=localhost DEBUG=* jest --forceExit --watch"
+    "test-localhost": "NODE_ENV=localhost DEBUG=* DEBUG_COLORS=true jest --forceExit",
+    "test:watch": "DEBUG=* DEBUG_COLORS=true jest --forceExit --watch",
+    "test-localhost:watch": "NODE_ENV=localhost DEBUG=* DEBUG_COLORS=true jest --forceExit --watch"
   },
   "repository": {
     "type": "git",

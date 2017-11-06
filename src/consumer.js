@@ -3,7 +3,6 @@
  */
 const { KafkaClient, Consumer } = require('kafka-node');
 const Task = require('folktale/concurrency/task');
-const Result = require('folktale/result');
 const R = require('ramda');
 const Rx = require('rxjs');
 
@@ -11,14 +10,14 @@ const Rx = require('rxjs');
 Project file imports
  */
 const { storage } = require('./storage');
-const { trace, replaceNullOrAppendToEnd, toReadyStatus } = require('./common');
+const { replaceNullOrAppendToEnd, toReadyStatus } = require('./common');
 
-// onError :: Consumer -> Observable Message
-const onError = consumer =>
+// _onError :: Consumer -> Observable Message
+const _onError = consumer =>
   Rx.Observable.fromEvent(consumer, 'error');
 
-// onMessage :: Consumer -> Observable Message
-const onMessage = consumer =>
+// _onMessage :: Consumer -> Observable Message
+const _onMessage = consumer =>
   Rx.Observable.fromEvent(consumer, 'message');
 
 // waitForTimeout :: Number -> Task
@@ -28,7 +27,7 @@ const waitForTimeout = (millisecond) =>
 // waitForNextError :: Consumer -> Task Error
 const waitForNextError = R.curry((consumer) =>
   Task.task((r) => {
-    onError(consumer)
+    _onError(consumer)
       .first() // we only need the next error
       .subscribe(r.reject);
   }));
@@ -71,18 +70,17 @@ const createConsumer = (options, topics) =>
     .chain(updateConsumers)
     .map(toReadyStatus);
 
-// TODO: refactor this
-// getConsumerObservable :: Number -> Observable Error Consumer
 const getConsumerObservable = consumerIndex =>
-  Rx.Observable.of(storage.consumers[consumerIndex])
-    .first(val => !!val);
+  Rx.Observable.return(storage.consumers[consumerIndex]);
 
-// TODO: refactor this
-// startConsuming :: Number -> Observable Error Message
-const startConsuming = (consumerIndex = 0) =>
-  getConsumerObservable(consumerIndex).flatMap(onMessage); // TODO: catch error
+const onMessage = consumerIndex =>
+  getConsumerObservable(consumerIndex).flatMap(_onMessage);
+
+const onError = consumerIndex =>
+  getConsumerObservable(consumerIndex).flatMap(_onError);
 
 module.exports = {
   createConsumer,
-  startConsuming,
+  onMessage,
+  onError,
 };

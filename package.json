@@ -4,7 +4,7 @@
   "description": "This library provide a thin layer wraps kafka-node library with some of Folktale and Rxjs data structures.",
   "main": "index.js",
   "scripts": {
-    "test": "DEBUG=* jest --forceExit",
+    "test": "jest --forceExit",
     "test-localhost": "NODE_ENV=localhost DEBUG=* jest --forceExit",
     "test:watch": "DEBUG=* jest --forceExit --watch",
     "test-localhost:watch": "NODE_ENV=localhost DEBUG=* jest --forceExit --watch"

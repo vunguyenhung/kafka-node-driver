@@ -32,7 +32,7 @@ const insertProducer = R.curry((options, producers) =>
     .chain(waitForProducerReady)
     .map(replaceNullOrAppendToEnd(producers)));
 
-// _updateProducers :: Array Producer -> Task
+// updateProducers :: Array Producer -> Task
 const updateProducers = producers =>
   Task.task((r) => {
     storage.producers = producers;
@@ -70,15 +70,15 @@ const closeProducer = R.curry((index, producers) =>
   ),
 );
 
-// _removeProducer :: Array Producer -> Array Producer
-const _removeProducer = R.update(R.__, null);
+// replacePositionWithNil :: Array Producer -> Array Producer
+const replacePositionWithNil = R.update(R.__, null);
 
 // removeProducer :: Number -> Task Array Producer
 const removeProducer = producerIndex =>
   getProducers()
     .chain(validateIndex(producerIndex))
     .chain(closeProducer(producerIndex))
-    .map(_removeProducer(producerIndex))
+    .map(replacePositionWithNil(producerIndex))
     .chain(updateProducers)
     .map(toReadyStatus);
 

@@ -79,7 +79,7 @@ Producer.createProducer(options)
   .then(console.log); 
 //=> [{ ready: true }]
 ```
-
+---
 `removeProducer :: Number -> Task Error [{ready: true}]`  
 Close a producer at the index is the provided number and replace its position with nil in the internal producer storage. 
 Then returns **a Task** which contains Error if there's error in the removing process or contains internal producer storage status if successfully.
@@ -116,8 +116,8 @@ Producer.createProducer(options)
   .promise() // convert the TaskExecution into Promise
   .then(console.log);//=> [nil] // producersStatus after the removing
 ```
-
-`send :: Message -> Number -> Task Error SendingResult`
+---
+`send :: Message -> Number -> Task Error SendingResult`  
 Use the producer at index is the provided number to send provided message to Kafka.
 Then returns **a Task** which contains Error if there's error in the sending process or contains sending result if successfully.
 ```js
@@ -142,8 +142,8 @@ Producer.createProducer(options)
            //=> { 'valid-topic': { 0 : 1 } } // Message sent to valid-topic at partition 0, offset 1
        });
 ```
-
-`createTopics :: [String] -> Number -> Task [String]`
+---
+`createTopics :: [String] -> Number -> Task [String]`  
 Use the producer at index is the provided number to send provided message to Kafka.
 Then returns **a Task** contains sending result. If there's an error happened, onError will emit an item.
 ```js

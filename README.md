@@ -59,14 +59,14 @@ Consumer API
 Create a consumer and push it into internal consumer storage. 
 Then returns **a Task** which contains Error if there's error in the creation process or contains internal consumer storage status if successfully.
 ```js
-createConsumer(options, ['valid-topic'])
+Consumer.createConsumer(options, ['valid-topic'])
   .run() // run the task, this method return a TaskExecution
   .promise() // convert the TaskExecution into Promise
   .then(console.log); 
 //=> [{ ready: true }]
 ```
 ```js
-createConsumer(options, ['invalid-topic'])
+Consumer.createConsumer(options, ['invalid-topic'])
   .run() // run the task, this method return a TaskExecution
   .promise() // convert the TaskExecution into Promise
   .catch(console.log); 
@@ -78,7 +78,7 @@ createConsumer(options, ['invalid-topic'])
 `onMessage :: Number -> Observable Message`  
 Take the consumer in internal consumer storage at the index is the provided argument, return an Observable emit item each time that consumer receive a message.
 ```js
-onMessage(0).subscribe(console.log);
+Consumer.onMessage(0).subscribe(console.log);
 //=> { 
 //     topic: 'example-topic',
 //     value: 'someMessage',
@@ -92,7 +92,7 @@ onMessage(0).subscribe(console.log);
 `onError :: Number -> Observable Error`  
 Take the consumer in internal consumer storage at the index is the provided argument, return an Observable emit item each time that consumer receive an error.
 ```js
-onError(0).subscribe(console.log);
+Consumer.onError(0).subscribe(console.log);
 //=> TopicNotExistError: 'The topic(s) invalid-topic do not exist'
 //                  at ...
 //                  ...

@@ -10,7 +10,7 @@ For more information, reference [here](https://sanctuary.js.org/#types).*
 
 Custom Types
 ----------
-`Client Options`: Equivalent with [`options` in KafkaClient of Kafka Node](https://github.com/SOHU-Co/kafka-node#options)    
+`Client Options`: Equivalent to [`options` in KafkaClient of Kafka Node](https://github.com/SOHU-Co/kafka-node#options)    
 ```
 ClientOptions :: { 
     kafkaHost :: String, 
@@ -22,8 +22,8 @@ ClientOptions :: {
     maxAsyncRequests :: Number,
 }
 ```
-
-`Consumer Options`: Equivalent with [`options` in Consumer of Kafka Node](https://github.com/SOHU-Co/kafka-node#consumer)    
+---
+`Consumer Options`: Equivalent to [`options` in Consumer of Kafka Node](https://github.com/SOHU-Co/kafka-node#consumer)    
 ```
 ConsumerOptions :: { 
     groupId :: String, 
@@ -36,8 +36,8 @@ ConsumerOptions :: {
     keyEncoding ::String
 }
 ```
-
-`Message`: Equivalent with [`message` in the callback of Consumer's on('message') event of Kafka Node.](https://github.com/SOHU-Co/kafka-node#onmessage-onmessage)    
+---
+`Message`: Equivalent to [`message` in the callback of Consumer's on('message') event of Kafka Node.](https://github.com/SOHU-Co/kafka-node#onmessage-onmessage)    
 ```
 Message :: { 
     topic :: String, 
@@ -74,7 +74,7 @@ createConsumer(options, ['invalid-topic'])
 //                  at ...
 //                  ...
 ```
-
+----
 `onMessage :: Number -> Observable Message`  
 Take the consumer in internal consumer storage at the index is the provided argument, return an Observable emit item each time that consumer receive a message.
 ```js
@@ -88,7 +88,7 @@ onMessage(0).subscribe(console.log);
 //     key: null 
 //   } 
 ```
-
+----
 `onError :: Number -> Observable Error`  
 Take the consumer in internal consumer storage at the index is the provided argument, return an Observable emit item each time that consumer receive an error.
 ```js

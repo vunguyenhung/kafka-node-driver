@@ -1,6 +1,6 @@
 {
   "name": "kafka-node-driver",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A thin layer wraps kafka-node library with some of Folktale and Rxjs data structures.",
   "main": "index.js",
   "scripts": {

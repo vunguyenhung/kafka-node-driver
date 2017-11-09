@@ -88,7 +88,7 @@ const _send = R.curry((messages, producer) =>
   Task.fromNodeback(producer.send.bind(producer))(messages));
 
 // send :: Message -> Number -> Task Error String
-const send = R.curry((messages, producerIndex = 0) =>
+const send = R.curry((producerIndex, messages) =>
   getProducer(producerIndex).chain(_send(messages)));
 
 // createTopics :: Array String -> Producer -> Task Error Something

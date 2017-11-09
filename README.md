@@ -135,7 +135,7 @@ Producer.createProducer(options)
        .then(producersStatus => {
          console.log(producersStatus); //=> [{ ready: true }]
          const message = {topic: 'valid-topic', messages: 'hello-there'};  
-         Producer.send(message, 0)
+         Producer.send(0, message)
            .run() 
            .promise()
            .then(console.log); 

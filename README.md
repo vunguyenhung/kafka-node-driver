@@ -134,8 +134,8 @@ Producer.createProducer(options)
        .promise() // convert the TaskExecution into Promise
        .then(producersStatus => {
          console.log(producersStatus); //=> [{ ready: true }]
-         const message = {topic: 'valid-topic', messages: 'hello-there'};  
-         Producer.send(0, message)
+         const messages = [{topic: 'valid-topic', messages: 'hello-there'}];  
+         Producer.send(0, messages)
            .run() 
            .promise()
            .then(console.log); 
